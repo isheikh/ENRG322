@@ -1,0 +1,53 @@
+---
+title: "Version Control Overview"
+subtitle: "ENRG 322: Energy Data Analysis"
+author: "Charles Barnhart and Imran Sheikh, adapted from material by Chris Paciorek at UC Berkeley "
+#date: "`r format(Sys.time(), '%d-%B-%Y %H:%M')`"
+output:
+  html_document:
+    toc: true
+---
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.align="center")
+```
+
+# Version control
+
+### Overview
+
+At a basic level, a simple principle is to have version numbers for all your work: code, datasets, manuscripts. Whenever you make a change to a dataset, increment the version number. For code and manuscripts, increment when you make substantial changes or have obvious breakpoints in your workflow. 
+
+However, this is a hassle to do manually. Instead of manually trying to keep track of what changes you've made to code, data, documents, you use software to help you manage the process. This has several benefits:
+
+* easily allowing you to go back to earlier versions
+* allowing you to have multiple versions you can switch between
+* allowing you to share work easily without worrying about conflicts
+* providing built-in backup
+
+
+### Git and Github
+
+Git is a popular tool for version control. Git is based around the notion of a repository, which is basically a version-controlled project directory. Many people use it with the Github or Bitbucket online hosting services for repositories.
+
+### Making changes to a repository
+The basic notion we need is a *commit*. As we make changes to our files, we want to commit those changes to the repository regularly. A *commit* is a set of changes recorded with Git. We will often then *push* those changes to a remote copy of the repository, such as on Github.
+
+Here's a basic workflow:
+
+1. Add a file to, or make changes to a file in, a repository
+2. Commit the changes
+3. Push the changes to the remote version of the repository
+
+The changes are then available to anyone to *pull* from the remote repository, a using `git pull` or graphical interfaces, such as using RStudio's tools to pull the changes to your machine.
+
+
+# Setup
+First, you need to install Git on your computer:
+https://support.rstudio.com/hc/en-us/articles/200532077?version=1.4.1106&mode=desktop
+
+http://git-scm.com/downloads
+
+## The End
+
+
