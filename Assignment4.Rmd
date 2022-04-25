@@ -1,0 +1,66 @@
+---
+title: "Starting with Pecan St data"
+subtitle: "ENRG 322: Energy Data Analysis Assignment 4"
+author: "Imran Sheikh"
+#date: "`r format(Sys.time(), '%d-%B-%Y %H:%M')`"
+output:
+  html_document:
+    toc: true
+---
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.align="center")
+```
+
+
+# Big Idea
+
+In this assignment we will dig into a bigger dataset from Pecan Street.  For this week, you will need data access, show that you can unzip the file, and import it into R.  Building energy use is largely driven by behavior of the occupants.  We will look into the how the electricity demand for 25 different houses vary over the course of an average day. Now, let's gain some insight into building performance!
+
+
+# Your Assignment
+
+
+## Get the data
+By now you should have applied for and received dataport access from Pecan Street.  Once you have that you can login to the dataport.  On the top bar you will see a data menu, and select Residential Data.  Download the Austin 15-min data.  This data will download as a tar.gz file. This is easy to unzip on a mac, but will require other tools to unzip on a PC.  More details about unzipping on a PC is available on Canvas.  Once complete, you should be able to load the data into R. From the Windows command prompt, I used theis command to extract it to my desktop:
+
+`tar -xvzf C:\Users\sheikhi\Downloads\15minute_data_austin.tar.gz -C C:\Users\sheikhi\Desktop\`
+
+```{r}
+library(tidyverse)
+library(lubridate)
+df = read_csv("15minute_data_austin.csv")
+```
+You will see that there is a LOT of data (almost a million observations of 79 variables).  In this assignment we are going to wrangle that data and try to gain some insight.  The data are for 25 houses for about a year (2018).
+
+You may run into parsing failures. There many empty data cells that trick read_csv() to assume they are logical <lgl> rather than numeric <dbl> cells. Let's fix that with some additional parameters in the read_csv() function. For details have a look [here][readr].
+
+The following line should work. It specifies the first two columns and the defaults all the other columns as doubles (a fundemental datatype for 64-bit (15 to 16 digit) numbers).
+
+```{r}
+df <- read_csv("15minute_data_austin.csv", col_types = cols(dataid = col_integer(), local_15min=col_datetime(), .default = col_double()))
+```
+
+**Once you have downloaded the data use the summary function and include the summary in your markdown.**
+
+## Setting the date
+In many datasets time is a key variable. But time is tricky as it depends on location and the vagaries of our ways of specifying years, months, days, and hours. To assist with wrangling time data we will use the R package lubridate, loaded above.
+
+You will use the timezone function, *with_tz()*
+
+To get a list of all timezones use *OlsonNames()*
+
+The time is given as UTC, or Coordinated Universal Time.  We would like to put this into central time for Austin TX.  Lubridate has some tricks to make that easy.  Make a new variable *local_15minCentral*.
+
+## Loads related/unrelated to temperature
+Outside temperature can also be a big driver of electricity demand if electricity is used for space heating and cooling.  We would like to separate that out and see what the shape of the load looks like.  Create a new variable *nonHvacDemand* that represents the total house electric load, minus the loads from air, furnace, or heater.  Note that *grid* represents the net demand (total demand - solar).  You will need to make appropriate adjustments to calculate *nonHvacDemand*. HVAC stands for Heating, Ventilation, and Air Conditioning.
+
+
+## Hourly averages
+We had some experience in an earlier assignment creating hourly averages when we had a complete set of 8760 hours of data.  This time, it might be a little more complicated.  Use your ingenuity to figure out how to do this, when some data might be missing.  Also, this time we have 15 minute data.  You can either figure out the 15-minute averages or group those together by hour. **For each of the 25 houses make a plot of the average non-HVAC load by hour (or 15 minute)  You could put these all on one plot.  Comment on the results**
+
+## Coming soon
+We also would like to see how the HVAC loads relate to outside temperature.  Your task next week will be to download weather data, sync it up with the energy use data, and make a scatterplot of HVAC electricity demand vs outside temperature.
+
+[readr]: http://readr.tidyverse.org/articles/readr.html
+
