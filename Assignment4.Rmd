@@ -1,5 +1,5 @@
 ---
-title: "Starting with Pecan St data"
+title: "Starting with Pecan Street data"
 subtitle: "ENRG 322: Energy Data Analysis Assignment 4"
 author: "Imran Sheikh"
 #date: "`r format(Sys.time(), '%d-%B-%Y %H:%M')`"
